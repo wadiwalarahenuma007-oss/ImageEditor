@@ -6,8 +6,7 @@
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     width: 100%;
     height: 100%;
 }
@@ -18,14 +17,8 @@ html {
     color: var(--text-primary-color);
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
     background: var(--bg-tertiary-color);
     border-radius: 4px;
@@ -58,9 +51,7 @@ main {
     white-space: nowrap;
 }
 
-.brand span {
-    color: var(--accent-color);
-}
+.brand span { color: var(--accent-color); }
 
 .top {
     display: flex;
@@ -94,9 +85,7 @@ main {
     transform: translateY(-1px);
 }
 
-.btn:active {
-    transform: translateY(0px);
-}
+.btn:active { transform: translateY(0px); }
 
 label.btn {
     background-color: var(--accent-color);
@@ -134,12 +123,12 @@ label.btn:hover {
 /* ── SECTION ── */
 main section {
     flex: 1;
+    min-height: 0; /* ✅ FIX: section ko shrink hone do */
     width: 100%;
     padding: 1.2rem 1.4rem;
     display: flex;
     gap: 1.2rem;
     overflow: hidden;
-    min-height: 0;
 }
 
 /* ── LEFT ── */
@@ -149,12 +138,14 @@ main section .left {
     gap: 1rem;
     width: 70%;
     min-width: 0;
+    min-height: 0; /* ✅ FIX */
     align-items: center;
 }
 
 main section .bottom {
     width: 100%;
     flex: 1;
+    min-height: 0; /* ✅ FIX */
     border-radius: 14px;
     background-color: var(--bg-secondary-color);
     border: 1px solid var(--border-color);
@@ -162,7 +153,6 @@ main section .bottom {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    min-height: 0;
 }
 
 .placeholder {
@@ -193,7 +183,8 @@ canvas {
 /* ── RIGHT PANEL ── */
 main section .right {
     width: 30%;
-    min-width: 0;
+    min-width: 220px;
+    min-height: 0; /* ✅ KEY FIX: yahi asli problem thi */
     background-color: var(--bg-secondary-color);
     border: 1px solid var(--border-color);
     border-radius: 14px;
@@ -203,11 +194,13 @@ main section .right {
 }
 
 .panel-scroll {
-    overflow-y: auto;
+    overflow-y: auto;   /* ✅ ab scroll karega kyunki parent constrained hai */
+    overflow-x: hidden;
     flex: 1;
+    min-height: 0;
     padding: 1rem 1.1rem 1.4rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* ✅ hamesha vertical */
     gap: 1.5rem;
 }
 
@@ -215,6 +208,7 @@ main section .right {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    flex-shrink: 0; /* ✅ blocks squeeze na hon */
 }
 
 .panel-section-title {
@@ -235,9 +229,7 @@ main section .right {
     gap: 0.85rem;
 }
 
-.filter {
-    width: 100%;
-}
+.filter { width: 100%; }
 
 .filter-header {
     display: flex;
@@ -325,16 +317,16 @@ main section .right {
     color: var(--accent-color);
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────
    RESPONSIVE BREAKPOINTS
-   (single source of truth, no conflicts)
-───────────────────────────────────────── */
+───────────────────────────*/
 
-/* ── Tablet landscape & small laptops ── */
+/* ── Tablet landscape ── */
 @media (max-width: 1024px) {
     main section {
         flex-direction: column;
-        overflow-y: auto;
+        overflow-y: auto;   /* ✅ section scroll kare mobile pe */
+        overflow-x: hidden;
         padding: 1rem;
         gap: 1rem;
     }
@@ -342,11 +334,10 @@ main section .right {
     main section .left,
     main section .right {
         width: 100%;
+        min-height: 0;
     }
 
-    main section .left {
-        flex-shrink: 0;
-    }
+    main section .left { flex-shrink: 0; }
 
     main section .bottom {
         min-height: 320px;
@@ -355,22 +346,22 @@ main section .right {
     }
 
     main section .right {
-        height: 38vh;
-        min-height: 260px;
+        /* ✅ Fixed height nahi — content ke hisaab se grow kare */
+        height: auto;
+        max-height: none;
         flex-shrink: 0;
     }
 
+    /* ✅ Mobile pe panel-scroll vertical hi rahe, horizontal nahi */
     .panel-scroll {
-        flex-direction: row;
-        gap: 1rem;
-        overflow-x: auto;
-        overflow-y: hidden;
+        flex-direction: column;
+        overflow-y: visible;   /* section khud scroll karega */
+        overflow-x: hidden;
+        gap: 1.5rem;
         padding: 0.85rem 1rem 1rem;
     }
 
-    .panel-block {
-        min-width: 240px;
-    }
+    .panel-block { min-width: unset; }
 }
 
 /* ── Tablet portrait ── */
@@ -382,9 +373,7 @@ main section .right {
         padding: 0.75rem 1rem;
     }
 
-    .brand {
-        font-size: 1.6rem;
-    }
+    .brand { font-size: 1.6rem; }
 
     .top {
         width: 100%;
@@ -409,38 +398,15 @@ main section .right {
         height: 45vw;
         max-height: 420px;
     }
-
-    main section .right {
-        height: 36vh;
-        min-height: 240px;
-    }
-
-    .panel-block {
-        min-width: 220px;
-    }
 }
 
-/* ── Large phones (≤580px) ── */
+/* ── Large phones ── */
 @media (max-width: 580px) {
-    .topbar {
-        padding: 0.65rem 0.9rem;
-        gap: 0.45rem;
-    }
+    .topbar { padding: 0.65rem 0.9rem; gap: 0.45rem; }
+    .brand { font-size: 1.4rem; }
+    .btn { font-size: 0.75rem; padding: 0.4rem 0.5rem; gap: 0.28rem; }
 
-    .brand {
-        font-size: 1.4rem;
-    }
-
-    .btn {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.5rem;
-        gap: 0.28rem;
-    }
-
-    main section {
-        padding: 0.7rem;
-        gap: 0.7rem;
-    }
+    main section { padding: 0.7rem; gap: 0.7rem; }
 
     main section .bottom {
         min-height: 220px;
@@ -449,58 +415,22 @@ main section .right {
         border-radius: 12px;
     }
 
-    main section .right {
-        border-radius: 12px;
-        height: 34vh;
-        min-height: 220px;
-    }
+    main section .right { border-radius: 12px; }
 
-    .panel-block {
-        min-width: 200px;
-    }
-
-    .panel-section-title {
-        font-size: 0.58rem;
-    }
-
-    .filter-header p {
-        font-size: 0.73rem;
-    }
-
-    .filter-value {
-        font-size: 0.65rem;
-    }
-
-    .presets {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .presets .btn {
-        font-size: 0.7rem;
-        padding: 0.42rem 0.2rem;
-    }
+    .panel-section-title { font-size: 0.58rem; }
+    .filter-header p { font-size: 0.73rem; }
+    .filter-value { font-size: 0.65rem; }
+    .presets { grid-template-columns: 1fr 1fr; }
+    .presets .btn { font-size: 0.7rem; padding: 0.42rem 0.2rem; }
 }
 
-/* ── Standard phones (≤480px) ── */
+/* ── Standard phones ── */
 @media (max-width: 480px) {
-    .topbar {
-        padding: 0.6rem 0.8rem;
-        gap: 0.4rem;
-    }
+    .topbar { padding: 0.6rem 0.8rem; gap: 0.4rem; }
+    .brand { font-size: 1.25rem; }
+    .btn { font-size: 0.72rem; padding: 0.38rem 0.45rem; }
 
-    .brand {
-        font-size: 1.25rem;
-    }
-
-    .btn {
-        font-size: 0.72rem;
-        padding: 0.38rem 0.45rem;
-    }
-
-    main section {
-        padding: 0.65rem;
-        gap: 0.65rem;
-    }
+    main section { padding: 0.65rem; gap: 0.65rem; }
 
     main section .bottom {
         min-height: 200px;
@@ -508,53 +438,19 @@ main section .right {
         max-height: 320px;
     }
 
-    main section .right {
-        height: 35vh;
-        min-height: 210px;
-    }
-
-    .panel-block {
-        min-width: 185px;
-    }
-
-    .panel-section-title {
-        font-size: 0.55rem;
-    }
-
-    .filter-header p {
-        font-size: 0.7rem;
-    }
-
-    .filter-value {
-        font-size: 0.62rem;
-    }
+    .panel-section-title { font-size: 0.55rem; }
+    .filter-header p { font-size: 0.7rem; }
+    .filter-value { font-size: 0.62rem; }
 }
 
-/* ── Small phones (≤400px) ── */
+/* ── Small phones ── */
 @media (max-width: 400px) {
-    .topbar {
-        padding: 0.5rem 0.65rem;
-        gap: 0.35rem;
-    }
+    .topbar { padding: 0.5rem 0.65rem; gap: 0.35rem; }
+    .brand { font-size: 1.1rem; }
+    .top { gap: 0.3rem; }
+    .btn { font-size: 0.68rem; padding: 0.35rem 0.4rem; border-radius: 6px; }
 
-    .brand {
-        font-size: 1.1rem;
-    }
-
-    .top {
-        gap: 0.3rem;
-    }
-
-    .btn {
-        font-size: 0.68rem;
-        padding: 0.35rem 0.4rem;
-        border-radius: 6px;
-    }
-
-    main section {
-        padding: 0.5rem;
-        gap: 0.5rem;
-    }
+    main section { padding: 0.5rem; gap: 0.5rem; }
 
     main section .bottom {
         min-height: 180px;
@@ -563,69 +459,20 @@ main section .right {
         border-radius: 10px;
     }
 
-    main section .right {
-        height: 34vh;
-        min-height: 200px;
-        border-radius: 10px;
-    }
+    main section .right { border-radius: 10px; }
 
-    .panel-scroll {
-        padding: 0.65rem 0.75rem 0.75rem;
-        gap: 0.75rem;
-    }
-
-    .panel-block {
-        min-width: 170px;
-    }
-
-    .panel-section-title {
-        font-size: 0.52rem;
-        letter-spacing: 0.1em;
-    }
-
-    .filter-header p {
-        font-size: 0.67rem;
-    }
-
-    .filter-value {
-        font-size: 0.6rem;
-    }
-
-    .presets .btn {
-        font-size: 0.67rem;
-        padding: 0.38rem 0.15rem;
-    }
-
-    .placeholder img {
-        width: 44px;
-    }
-
-    .placeholder p {
-        font-size: 0.72rem;
-    }
+    .panel-scroll { padding: 0.65rem 0.75rem 0.75rem; gap: 1rem; }
+    .panel-section-title { font-size: 0.52rem; letter-spacing: 0.1em; }
+    .filter-header p { font-size: 0.67rem; }
+    .filter-value { font-size: 0.6rem; }
+    .presets .btn { font-size: 0.67rem; padding: 0.38rem 0.15rem; }
+    .placeholder img { width: 44px; }
+    .placeholder p { font-size: 0.72rem; }
 }
 
-/* ── Very small phones (≤320px) ── */
+/* ── Very small phones ── */
 @media (max-width: 320px) {
-    .brand {
-        font-size: 1rem;
-    }
-
-    .btn {
-        font-size: 0.64rem;
-        padding: 0.3rem 0.35rem;
-    }
-
-    main section .bottom {
-        min-height: 150px;
-    }
-
-    main section .right {
-        height: 32vh;
-        min-height: 180px;
-    }
-
-    .panel-block {
-        min-width: 150px;
-    }
+    .brand { font-size: 1rem; }
+    .btn { font-size: 0.64rem; padding: 0.3rem 0.35rem; }
+    main section .bottom { min-height: 150px; }
 }
