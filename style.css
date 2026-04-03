@@ -33,11 +33,12 @@ html {
 
 main {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
 }
 
+/* ── TOPBAR ── */
 .topbar {
     display: flex;
     align-items: center;
@@ -54,6 +55,7 @@ main {
     font-weight: 700;
     letter-spacing: 0.06em;
     color: var(--text-primary-color);
+    white-space: nowrap;
 }
 
 .brand span {
@@ -66,7 +68,7 @@ main {
     gap: 0.6rem;
 }
 
-
+/* ── BUTTONS ── */
 .btn {
     padding: 0.45rem 1rem;
     border: none;
@@ -84,6 +86,7 @@ main {
     align-items: center;
     gap: 0.35rem;
     border: 1px solid var(--border-color);
+    white-space: nowrap;
 }
 
 .btn:hover {
@@ -136,6 +139,7 @@ main section {
     display: flex;
     gap: 1.2rem;
     overflow: hidden;
+    min-height: 0;
 }
 
 /* ── LEFT ── */
@@ -144,6 +148,7 @@ main section .left {
     flex-direction: column;
     gap: 1rem;
     width: 70%;
+    min-width: 0;
     align-items: center;
 }
 
@@ -157,6 +162,7 @@ main section .bottom {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    min-height: 0;
 }
 
 .placeholder {
@@ -187,6 +193,7 @@ canvas {
 /* ── RIGHT PANEL ── */
 main section .right {
     width: 30%;
+    min-width: 0;
     background-color: var(--bg-secondary-color);
     border: 1px solid var(--border-color);
     border-radius: 14px;
@@ -318,11 +325,18 @@ main section .right {
     color: var(--accent-color);
 }
 
-@media (max-width: 1024px) {
+/* ─────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+   (single source of truth, no conflicts)
+───────────────────────────────────────── */
 
-    /* ✅ correct selector */
+/* ── Tablet landscape & small laptops ── */
+@media (max-width: 1024px) {
     main section {
         flex-direction: column;
+        overflow-y: auto;
+        padding: 1rem;
+        gap: 1rem;
     }
 
     main section .left,
@@ -330,8 +344,20 @@ main section .right {
         width: 100%;
     }
 
+    main section .left {
+        flex-shrink: 0;
+    }
+
+    main section .bottom {
+        min-height: 320px;
+        height: 42vw;
+        max-height: 500px;
+    }
+
     main section .right {
-        height: 40vh;
+        height: 38vh;
+        min-height: 260px;
+        flex-shrink: 0;
     }
 
     .panel-scroll {
@@ -339,20 +365,25 @@ main section .right {
         gap: 1rem;
         overflow-x: auto;
         overflow-y: hidden;
+        padding: 0.85rem 1rem 1rem;
     }
 
     .panel-block {
-        min-width: 250px;
+        min-width: 240px;
     }
 }
 
-
+/* ── Tablet portrait ── */
 @media (max-width: 768px) {
-
     .topbar {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.6rem;
+        gap: 0.55rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .brand {
+        font-size: 1.6rem;
     }
 
     .top {
@@ -362,163 +393,239 @@ main section .right {
     }
 
     .btn {
-        flex: 1;
+        flex: 1 1 auto;
         justify-content: center;
-        font-size: 0.75rem;
-        padding: 0.4rem;
+        font-size: 0.78rem;
+        padding: 0.42rem 0.6rem;
     }
 
-    /* ✅ already correct */
     main section {
         padding: 0.8rem;
         gap: 0.8rem;
     }
 
-    .bottom {
-        border-radius: 10px;
-    }
-
-    .presets {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-
-@media (max-width: 480px) {
-
-    .brand {
-        font-size: 0.8rem;
-    }
-
-    .btn {
-        font-size: 0.7rem;
-        padding: 0.35rem;
-    }
-
-    .panel-section-title {
-        font-size: 0.55rem;
-    }
-
-    .filter-header p {
-        font-size: 0.7rem;
-    }
-
-    .filter-value {
-        font-size: 0.6rem;
-    }
-
-    .presets {
-        grid-template-columns: 1fr;
-    }
-}
-@media (max-width: 360px) {
-
-    /* super compact spacing */
-    main section {
-        padding: 0.5rem;
-        gap: 0.5rem;
-    }
-
-    .topbar {
-        padding: 0.5rem 0.6rem;
-    }
-
-    /* brand smallest readable */
-    .brand {
-        font-size: 0.9rem;
-    }
-
-    /* buttons stack properly */
-    .btn {
-        flex: 1 1 100%;
-        font-size: 0.65rem;
-        padding: 0.3rem;
-    }
-
-    /* canvas area visible */
     main section .bottom {
-        min-height: 180px;
+        min-height: 260px;
+        height: 45vw;
+        max-height: 420px;
     }
 
-    /* right panel tighter */
     main section .right {
-        height: 35vh;
-    }
-
-    /* filters tighter */
-    .panel-scroll {
-        gap: 0.5rem;
+        height: 36vh;
+        min-height: 240px;
     }
 
     .panel-block {
-        min-width: 180px;
-    }
-
-    /* text scaling */
-    .panel-section-title {
-        font-size: 0.5rem;
-    }
-
-    .filter-header p {
-        font-size: 0.65rem;
-    }
-
-    .filter-value {
-        font-size: 0.55rem;
+        min-width: 220px;
     }
 }
-@media (max-width: 430px) {
 
-    /* section spacing tight */
-    main section {
-        padding: 0.6rem;
-        gap: 0.6rem;
-    }
-
-    /* topbar compact */
+/* ── Large phones (≤580px) ── */
+@media (max-width: 580px) {
     .topbar {
-        padding: 0.6rem 0.8rem;
+        padding: 0.65rem 0.9rem;
+        gap: 0.45rem;
     }
 
-    /* brand readable but small */
     .brand {
-        font-size: 1rem;
-    }
-
-    /* buttons properly fit */
-    .top {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 0.3rem;
+        font-size: 1.4rem;
     }
 
     .btn {
-        flex: 1 1 48%;
-        font-size: 0.68rem;
-        padding: 0.35rem;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.5rem;
+        gap: 0.28rem;
     }
 
-    /* canvas area height control */
+    main section {
+        padding: 0.7rem;
+        gap: 0.7rem;
+    }
+
     main section .bottom {
         min-height: 220px;
+        height: 50vw;
+        max-height: 360px;
+        border-radius: 12px;
     }
 
-    /* right panel height adjust */
     main section .right {
-        height: 38vh;
-    }
-
-    /* filters scroll smooth */
-    .panel-scroll {
-        gap: 0.6rem;
+        border-radius: 12px;
+        height: 34vh;
+        min-height: 220px;
     }
 
     .panel-block {
         min-width: 200px;
     }
 
-    /* presets single column */
+    .panel-section-title {
+        font-size: 0.58rem;
+    }
+
+    .filter-header p {
+        font-size: 0.73rem;
+    }
+
+    .filter-value {
+        font-size: 0.65rem;
+    }
+
     .presets {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .presets .btn {
+        font-size: 0.7rem;
+        padding: 0.42rem 0.2rem;
+    }
+}
+
+/* ── Standard phones (≤480px) ── */
+@media (max-width: 480px) {
+    .topbar {
+        padding: 0.6rem 0.8rem;
+        gap: 0.4rem;
+    }
+
+    .brand {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        font-size: 0.72rem;
+        padding: 0.38rem 0.45rem;
+    }
+
+    main section {
+        padding: 0.65rem;
+        gap: 0.65rem;
+    }
+
+    main section .bottom {
+        min-height: 200px;
+        height: 52vw;
+        max-height: 320px;
+    }
+
+    main section .right {
+        height: 35vh;
+        min-height: 210px;
+    }
+
+    .panel-block {
+        min-width: 185px;
+    }
+
+    .panel-section-title {
+        font-size: 0.55rem;
+    }
+
+    .filter-header p {
+        font-size: 0.7rem;
+    }
+
+    .filter-value {
+        font-size: 0.62rem;
+    }
+}
+
+/* ── Small phones (≤400px) ── */
+@media (max-width: 400px) {
+    .topbar {
+        padding: 0.5rem 0.65rem;
+        gap: 0.35rem;
+    }
+
+    .brand {
+        font-size: 1.1rem;
+    }
+
+    .top {
+        gap: 0.3rem;
+    }
+
+    .btn {
+        font-size: 0.68rem;
+        padding: 0.35rem 0.4rem;
+        border-radius: 6px;
+    }
+
+    main section {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    main section .bottom {
+        min-height: 180px;
+        height: 55vw;
+        max-height: 280px;
+        border-radius: 10px;
+    }
+
+    main section .right {
+        height: 34vh;
+        min-height: 200px;
+        border-radius: 10px;
+    }
+
+    .panel-scroll {
+        padding: 0.65rem 0.75rem 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .panel-block {
+        min-width: 170px;
+    }
+
+    .panel-section-title {
+        font-size: 0.52rem;
+        letter-spacing: 0.1em;
+    }
+
+    .filter-header p {
+        font-size: 0.67rem;
+    }
+
+    .filter-value {
+        font-size: 0.6rem;
+    }
+
+    .presets .btn {
+        font-size: 0.67rem;
+        padding: 0.38rem 0.15rem;
+    }
+
+    .placeholder img {
+        width: 44px;
+    }
+
+    .placeholder p {
+        font-size: 0.72rem;
+    }
+}
+
+/* ── Very small phones (≤320px) ── */
+@media (max-width: 320px) {
+    .brand {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 0.64rem;
+        padding: 0.3rem 0.35rem;
+    }
+
+    main section .bottom {
+        min-height: 150px;
+    }
+
+    main section .right {
+        height: 32vh;
+        min-height: 180px;
+    }
+
+    .panel-block {
+        min-width: 150px;
     }
 }
